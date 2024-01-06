@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application xmlns="http://ns.adobe.com/air/application/33.1">
+  <id>com.example.sploderplat</id>
+  <versionNumber>1.0.0</versionNumber>
+  <filename>creator2.swf</filename>
+  <name>Sploder Platformer</name>
+  <description>Sploder Platformer</description>
+  <initialWindow>
+    <content>creator2.swf</content>
+    <visible>true</visible>
+    <fullScreen>false</fullScreen>
+    <autoOrients>true</autoOrients>
+    <aspectRatio>landscape</aspectRatio>
+    <renderMode>auto</renderMode>
+    <softKeyboardBehavior>pan</softKeyboardBehavior>
+  </initialWindow>
+  <android>
+    <manifestAdditions><![CDATA[
+      <manifest>
+        <uses-permission android:name="android.permission.INTERNET"/>
+      </manifest>
+    ]]></manifestAdditions>
+  </android>
+  <supportedProfiles>mobileDevice</supportedProfiles>
+</application>
