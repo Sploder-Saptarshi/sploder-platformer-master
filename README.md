@@ -1,6 +1,6 @@
 # sploder-platformer
 
-Original client-side AS3/Flash source code for the Sploder (http://www.sploder.com) Platformer
+Modified client-side AS3/Flash source code for the Sploder (http://www.sploder.com) Platformer creator that adds support for music to be played in the .MP3 format. This also modifies as3corelib's JSON library to allow everything to be compiled in Flash Player 11 and above.
 
 ## History
 
