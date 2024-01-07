@@ -532,7 +532,7 @@
 			ddMusic = new DialogueMusicManager(this, 330, 480, "Add Music", ["Cancel", "Remove Music", "Select Music"]);
 			ddMusic.create();
 			
-			ddMusic.listURL = "/music/modules/index.m3u";
+			ddMusic.listURL = "/music/modules/index-mp3.m3u";
 			ddMusic.listParamString = "";
 			
 			_musicButton.addEventListener(Component.EVENT_CLICK, onMusicButtonClicked);

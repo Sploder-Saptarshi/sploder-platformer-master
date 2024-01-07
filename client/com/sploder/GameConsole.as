@@ -1059,7 +1059,7 @@
 			if (_musicTrack != "") {
 				var tag:Array = _musicTrack.split("/");
 				var c_title:String = String(tag[1]).split("?")[0];
-				c_title = StringUtils.titleCase(unescape(c_title).split(".mod").join("").split("-").join(" "));
+				c_title = StringUtils.titleCase(unescape(c_title).split(".mp3").join("").split("-").join(" "));
 				_soundStatusTF.htmlText = c_title + ' - ' + '<font color="#ffec00"><a href="http://www.sploder.com/music/author_redirect.php?author=' + tag[0] + '" target="_blank">' + tag[0] + ' ¬</a></font>';
 				_soundStatusTF.visible = true;
 				_soundStatusTF.mouseEnabled = true;
