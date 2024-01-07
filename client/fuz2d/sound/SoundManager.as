@@ -1,3 +1,4 @@
+
 package fuz2d.sound {
 	
 	import com.sploder.*;
@@ -20,7 +21,6 @@ package fuz2d.sound {
 	import flash.media.Sound;
 	import flash.media.SoundChannel;
 	import flash.utils.getTimer;
-	
 
     public class SoundManager {
 
@@ -40,8 +40,11 @@ package fuz2d.sound {
 		}
 		
 		//	Required to replay a mod
+		private var pauseposition:int;
+		private var globalurl:String;
 		private var song:Sound = new Sound();
 		private var channel:SoundChannel;
+		private var soundBytes:ByteArray;
 		private var music:Sound;
 		private var stream:ByteArray;
 		private var processor:ModProcessor;
@@ -232,31 +235,35 @@ package fuz2d.sound {
 		public function loadSong (url:String):void {
 			
 			unloadSong();
+			globalurl = url;
+			songLoader = new URLLoader();
+			songLoader.addEventListener(Event.COMPLETE, onSongLoaded, false, 0, true);
+			songLoader.addEventListener(IOErrorEvent.IO_ERROR, onSongError, false, 0, true);
+			songLoader.addEventListener(SecurityErrorEvent.SECURITY_ERROR, onSongError, false, 0, true);
+			songLoader.dataFormat = URLLoaderDataFormat.BINARY;
+			songLoader.load(new URLRequest(baseURL + "music/modules/" + url));
+
+		}
+		
+		public function pauseSong ():void {
+			pauseposition = channel.position;
+			if (processor && processor.isPlaying) processor.pause();
+			if (channel && channel.position > 0){
+				channel.stop();
+			}
 			
+		}
+		
+		public function resumeSong ():void {8
+			if (channel){
+				unloadSong();
 				songLoader = new URLLoader();
 				songLoader.addEventListener(Event.COMPLETE, onSongLoaded, false, 0, true);
 				songLoader.addEventListener(IOErrorEvent.IO_ERROR, onSongError, false, 0, true);
 				songLoader.addEventListener(SecurityErrorEvent.SECURITY_ERROR, onSongError, false, 0, true);
 				songLoader.dataFormat = URLLoaderDataFormat.BINARY;
-				songLoader.load(new URLRequest(baseURL + "music/modules/" + url));
-				trace(new URLRequest(baseURL + "music/modules/" + url));			
-		}
-		
-		public function pauseSong ():void {
-			
-			if (processor && processor.isPlaying) processor.pause();
-			
-		}
-		
-		public function resumeSong ():void {
-			
-			if (processor && !processor.isPlaying) {
-				processor.play(music);
-				var st:SoundTransform = processor.soundChannel.soundTransform;
-				st.volume = 0.5;
-				processor.soundChannel.soundTransform = st;
+				songLoader.load(new URLRequest(baseURL + "music/modules/" + globalurl));
 			}
-			
 		}
 		
 		public function unloadSong ():void {
@@ -265,7 +272,7 @@ package fuz2d.sound {
 				try { songLoader.close(); } catch (e:Error) { };
 				songLoader = null;
 			}
-						if (channel){
+			if (channel){
 				channel.stop();
 				channel = null;
 			}			
@@ -293,13 +300,13 @@ package fuz2d.sound {
 			
 					
       
-    if (songLoader.data) {
-        song = new Sound();
-        var soundBytes:ByteArray = ByteArray(songLoader.data);
-        song.loadCompressedDataFromByteArray(soundBytes, soundBytes.length);
-        channel = song.play();
-        channel.addEventListener(Event.SOUND_COMPLETE, onSoundComplete);
-    }
+			if (songLoader.data) {
+				song = new Sound();
+				soundBytes = ByteArray(songLoader.data);
+				song.loadCompressedDataFromByteArray(soundBytes, soundBytes.length);
+				channel = song.play(pauseposition);
+				channel.addEventListener(Event.SOUND_COMPLETE, onSoundComplete);
+			}
 
 		
 		}
